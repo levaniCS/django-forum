@@ -15,7 +15,7 @@ class Room(models.Model):
     # null = True --> neans it can be optional
     # blank=True --> form can be false
     description = models.TextField(null=True, blank=True)
-    # participants = 
+    participants = models.ManyToManyField(User, related_name='participants', blank=True)
     updated = models.DateTimeField(auto_now=True)
     # auto_now_add --> only applied creation time and not update
     created = models.DateTimeField(auto_now_add=True)
@@ -34,6 +34,10 @@ class Message(models.Model):
     updated = models.DateTimeField(auto_now=True)
     # auto_now_add --> only applied creation time and not update
     created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        # ascending order, descending => ['-updated', '-created']
+        ordering = ['-updated', '-created']
 
     def __str__(self):
         return self.body[0:50]
